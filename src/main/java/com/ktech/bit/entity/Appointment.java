@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -24,42 +25,38 @@ public class Appointment implements Serializable {
     @Column(name = "date_created", nullable = false)
     private Date dateCreated;
 
-    private String clientName;
-    
-    private String clientContact;
-    
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "start_time", nullable = false)
     private Date dateTime;
-    
+
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "end_time", nullable = false)
     private Date endTime;
-    
+
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "expected_end_time", nullable = false)
     private Date expectedEndTime;
-    
-    private double expectedPrice;
-    
-    private double fullPrice;
-    
+
+    private double price;
+
     private double discount;
-    
-    private double finalPrice;
-    
-    private boolean canceled;
-    
+
+    private boolean cancelled;
+
     @Column(name = "cancelation_reason", length = 500)
-    private String cancelationReason;
-    
+    private String cancellationReason;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "employee_id", nullable = false)
     private Employee employee;
-    
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id", nullable = false)
     private Client client;
+
+    @OneToOne
+    @JoinColumn(name = "payment_id")
+    private Payment payment;
 
     public Appointment() {
     }
@@ -78,22 +75,6 @@ public class Appointment implements Serializable {
 
     public void setDateCreated(Date dateCreated) {
         this.dateCreated = dateCreated;
-    }
-
-    public String getClientName() {
-        return clientName;
-    }
-
-    public void setClientName(String clientName) {
-        this.clientName = clientName;
-    }
-
-    public String getClientContact() {
-        return clientContact;
-    }
-
-    public void setClientContact(String clientContact) {
-        this.clientContact = clientContact;
     }
 
     public Date getDateTime() {
@@ -120,20 +101,12 @@ public class Appointment implements Serializable {
         this.expectedEndTime = expectedEndTime;
     }
 
-    public double getExpectedPrice() {
-        return expectedPrice;
+    public double getPrice() {
+        return price;
     }
 
-    public void setExpectedPrice(double expectedPrice) {
-        this.expectedPrice = expectedPrice;
-    }
-
-    public double getFullPrice() {
-        return fullPrice;
-    }
-
-    public void setFullPrice(double fullPrice) {
-        this.fullPrice = fullPrice;
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     public double getDiscount() {
@@ -144,28 +117,20 @@ public class Appointment implements Serializable {
         this.discount = discount;
     }
 
-    public double getFinalPrice() {
-        return finalPrice;
+    public boolean isCancelled() {
+        return cancelled;
     }
 
-    public void setFinalPrice(double finalPrice) {
-        this.finalPrice = finalPrice;
+    public void setCancelled(boolean cancelled) {
+        this.cancelled = cancelled;
     }
 
-    public boolean isCanceled() {
-        return canceled;
+    public String getCancellationReason() {
+        return cancellationReason;
     }
 
-    public void setCanceled(boolean canceled) {
-        this.canceled = canceled;
-    }
-
-    public String getCancelationReason() {
-        return cancelationReason;
-    }
-
-    public void setCancelationReason(String cancelationReason) {
-        this.cancelationReason = cancelationReason;
+    public void setCancellationReason(String cancellationReason) {
+        this.cancellationReason = cancellationReason;
     }
 
     public Employee getEmployee() {
@@ -182,5 +147,13 @@ public class Appointment implements Serializable {
 
     public void setClient(Client client) {
         this.client = client;
+    }
+
+    public Payment getPayment() {
+        return payment;
+    }
+
+    public void setPayment(Payment payment) {
+        this.payment = payment;
     }
 }

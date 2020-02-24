@@ -26,14 +26,18 @@ public class Tests {
 
     @Test
     public void testInsertEmployee() {
-        Employee employee = new Employee("Irfan", "Manzoor", 40);
+        Employee employee = new Employee();
+        employee.setFirstName("Irfan");
+        employee.setLastName("Manzoor");
         Integer id = (Integer) employeeDao.createEmployee(employee);
         assertTrue(id instanceof Integer);
     }
 
     @Test
     public void testInsertClient() {
-        Client client = new Client("Jeff Thomson", "033674367647", "thomsan@mail.com");
+        Client client = new Client();
+        client.setFirstName("Jeff");
+        client.setLastName("Thomsan");
         Integer id = (Integer) clientDao.createClient(client);
         assertTrue(id instanceof Integer);
     }
